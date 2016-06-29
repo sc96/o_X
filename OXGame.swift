@@ -32,7 +32,6 @@ class OXGame {
                                        CellType.Empty, CellType.Empty, CellType.Empty,
                                        CellType.Empty, CellType.Empty, CellType.Empty]
     
-    private var magicSquare: [Int] = [4, 9, 2, 3, 5, 7, 8, 1, 6]
     
     private var startType = CellType.X
     
@@ -63,17 +62,16 @@ class OXGame {
         
         if (count % 2 == 0) {
             
-            board[cellNumber] = CellType.X
+            board[cellNumber-1] = CellType.X
             count += 1
-            xScore += magicSquare[cellNumber]
             return CellType.X
+            
             
         }
         
         else {
-            board[cellNumber] = CellType.O
+            board[cellNumber-1] = CellType.O
             count += 1
-            xScore += magicSquare[cellNumber]
             return CellType.O
         }
 
@@ -83,14 +81,49 @@ class OXGame {
     
     func gameWon() -> Bool {
         
-        if (xScore == 15 || oScore == 15) {
-            return true
+        if (board[0] != CellType.Empty) {
+            
+            if (board[0] == board[1] && board[1] == board[2]) {
+                return true
+            }
+            if (board[0] == board[3] && board[3] == board[6]) {
+                return true
+            }
+            if (board[0] == board[4] && board[4] == board[8]) {
+                return true
+            }
+        
         }
-        else {
-            return false
+        
+        if (board[8] != CellType.Empty) {
+            
+            if (board[8] == board[5] && board[5] == board[2]) {
+                return true
+            }
+            if (board[8] == board[7] && board[7] == board[6]) {
+                return true
+            }
+            
         }
         
         
+        if (board[4] != CellType.Empty) {
+            
+            if (board[4] == board[3] && board[3] == board[5]) {
+                return true
+            }
+            if (board[4] == board[1] && board[1] == board[7]) {
+                return true
+            }
+            if (board[4] == board[2] && board[2] == board[6]) {
+                return true
+            }
+            
+        }
+        
+        
+        
+        return false
     }
     
     func state() -> OXGameState {
@@ -115,8 +148,7 @@ class OXGame {
                  CellType.Empty, CellType.Empty, CellType.Empty,
                  CellType.Empty, CellType.Empty, CellType.Empty]
         count = 0
-        xScore = 0
-        oScore = 0
+        
         
         
     }
