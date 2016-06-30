@@ -13,6 +13,7 @@ import UIKit
 class OXGameController {
     
     private var currGame: OXGame = OXGame()
+    
 
     
     static let sharedInstance = OXGameController()
@@ -26,15 +27,18 @@ class OXGameController {
     
     func restartGame() {
         
-        currGame = OXGame()
+        currGame.reset()
     }
     
     func playMove(cellNumber : Int) -> CellType {
+        
         
         return currGame.playMove(cellNumber)
         
         
     }
+    
+
     
     
     

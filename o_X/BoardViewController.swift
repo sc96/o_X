@@ -31,6 +31,11 @@ class BoardViewController: UIViewController {
     
     @IBAction func logoutButtonpressed(sender: UIButton) {
         print("Logout button pressed")
+        
+        OXGameController.sharedInstance.restartGame()
+        let controller = UIStoryboard(name: "Onboarding", bundle: nil).instantiateInitialViewController()
+        let window = UIApplication.sharedApplication().keyWindow
+        window?.rootViewController = controller
     }
     
 
@@ -48,9 +53,23 @@ class BoardViewController: UIViewController {
         
         if (state == OXGameState.Won) {
             
+            // making sure you can't press buttons after you win
+            for view in boardView.subviews {
+                if let button = view as? UIButton {
+                    if (button.enabled == true) {
+                        button.enabled = false
+                    }
+                   
+                }
+                
+            }
+
+            
+            
+            
             if (OXGameController.sharedInstance.getCurrentGame().turnCount() % 2 == 1) {
                
-                
+                print(state.rawValue)
                 let alert = UIAlertController(title: "Game over boi", message: "X won",
                                               preferredStyle: UIAlertControllerStyle.Alert)
                 
@@ -79,12 +98,23 @@ class BoardViewController: UIViewController {
             
             
             
-            
         }
             
         else if (state == OXGameState.Tie){
             print("You guys both suck. Game is tied")
-            restartGame()
+            let alert = UIAlertController(title: "Tie", message: "No one won",
+                                          preferredStyle: UIAlertControllerStyle.Alert)
+            
+            let alertAction = UIAlertAction(title: "Dismiss", style: .Cancel, handler: { (action) in
+                unhideNewButton()
+                
+            })
+            
+            alert.addAction(alertAction)
+            self.presentViewController(alert, animated: true, completion: nil)
+
+            
+            // restartGame()
         }
         
         
