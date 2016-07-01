@@ -53,6 +53,10 @@ func register(email email: String, password: String, onCompletion: (User?, Strin
     
     currentUser = User(email: email, password: password)
     
+    let defaults = NSUserDefaults.standardUserDefaults()
+    defaults.setObject(email, forKey: "currentUserEmail")
+    defaults.setObject(password, forKey: "currentUserPassword")
+    defaults.synchronize()
     
     
     onCompletion(currentUser,nil)
@@ -65,6 +69,12 @@ func login(email email: String, password: String, onCompletion: (User?, String?)
     
     for user in UserList {
         if (user.email == email && user.password == password) {
+
+            let defaults = NSUserDefaults.standardUserDefaults()
+            defaults.setObject(email, forKey: "currentUserEmail")
+            defaults.setObject(password, forKey: "currentUserPassword")
+            defaults.synchronize()
+            
             currentUser = user
             onCompletion(user, nil)
             return
@@ -80,6 +90,10 @@ func login(email email: String, password: String, onCompletion: (User?, String?)
 func logout(onCompletion onCompletion: (String?) -> Void) {
     
     
+    let defaults = NSUserDefaults.standardUserDefaults()
+    defaults.removeObjectForKey("currentUserEmail")
+    defaults.removeObjectForKey("currentUserPassword")
+    defaults.synchronize()
     currentUser = nil
     onCompletion(nil)
     
