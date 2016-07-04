@@ -20,44 +20,48 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Pa-NM-TCy">
                                 <rect key="frame" x="262" y="84" width="76" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mc8-5l-OxB">
-                                <rect key="frame" x="245" y="185" width="110" height="50"/>
-                                <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <rect key="frame" x="245" y="225" width="110" height="50"/>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="0.25150862070000002" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="HiD-za-Qhd"/>
                                     <constraint firstAttribute="width" constant="110" id="sEo-7b-L2u"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                <state key="normal" title="Login"/>
+                                <state key="normal" title="Login">
+                                    <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
                                 <connections>
                                     <segue destination="GdC-Dw-rp3" kind="show" id="jem-id-yWc"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="10g-LJ-sGJ">
-                                <rect key="frame" x="245" y="275" width="110" height="50"/>
-                                <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <rect key="frame" x="245" y="315" width="110" height="50"/>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="0.25150862068965518" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="110" id="E1Z-7b-Wkm"/>
                                     <constraint firstAttribute="height" constant="50" id="OtY-b2-VcN"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                <state key="normal" title="Register"/>
+                                <state key="normal" title="Register">
+                                    <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
                                 <connections>
                                     <segue destination="QP8-7H-Yfj" kind="show" id="WFP-Hw-7Pj"/>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="10g-LJ-sGJ" firstAttribute="top" secondItem="Mc8-5l-OxB" secondAttribute="bottom" constant="40" id="J8R-M8-5jf"/>
                             <constraint firstItem="Mc8-5l-OxB" firstAttribute="centerX" secondItem="gmD-tt-kKf" secondAttribute="centerX" id="Wha-Lv-6cr"/>
                             <constraint firstItem="3Pa-NM-TCy" firstAttribute="centerX" secondItem="gmD-tt-kKf" secondAttribute="centerX" id="YkS-l0-1ma"/>
                             <constraint firstItem="3Pa-NM-TCy" firstAttribute="top" secondItem="A0B-9j-duA" secondAttribute="bottom" constant="20" id="ZKr-oy-yJM"/>
                             <constraint firstItem="10g-LJ-sGJ" firstAttribute="centerX" secondItem="gmD-tt-kKf" secondAttribute="centerX" id="mTK-ol-gpO"/>
-                            <constraint firstItem="10g-LJ-sGJ" firstAttribute="centerY" secondItem="gmD-tt-kKf" secondAttribute="centerY" id="p5g-kM-Mea"/>
+                            <constraint firstItem="10g-LJ-sGJ" firstAttribute="centerY" secondItem="gmD-tt-kKf" secondAttribute="centerY" constant="40" id="p5g-kM-Mea"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="qeg-mf-dgb"/>
@@ -81,7 +85,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Register" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b7r-gm-tGj">
                                 <rect key="frame" x="268" y="84" width="64" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AhJ-UE-2w5">
@@ -114,7 +118,9 @@
                                     <constraint firstAttribute="width" constant="57" id="7kR-4N-86P"/>
                                     <constraint firstAttribute="height" constant="30" id="jnS-ed-qc9"/>
                                 </constraints>
-                                <state key="normal" title="Register"/>
+                                <state key="normal" title="Register">
+                                    <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="registerButton:" destination="QP8-7H-Yfj" eventType="touchUpInside" id="Dk0-QM-NAC"/>
                                 </connections>
@@ -156,7 +162,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="243-9j-kXe">
                                 <rect key="frame" x="279" y="84" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9ei-kt-Y1L">
@@ -173,7 +179,9 @@
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oPy-Ri-BaW">
                                 <rect key="frame" x="281" y="346" width="38" height="30"/>
-                                <state key="normal" title="Login"/>
+                                <state key="normal" title="Login">
+                                    <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="loginPressed:" destination="GdC-Dw-rp3" eventType="touchUpInside" id="84h-LM-LU1"/>
                                 </connections>

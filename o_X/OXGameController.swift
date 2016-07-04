@@ -38,6 +38,16 @@ class OXGameController {
         
     }
     
+    func getGames(onCompletion onCompletion: ([OXGame]?, String?) -> Void) {
+        
+        
+        // WIP
+        let gameArr : [OXGame] = [currGame, OXGame(), OXGame()]
+        let message : String = ""
+        onCompletion(gameArr, message)
+        
+    }
+    
 
     
     
