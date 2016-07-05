@@ -4,6 +4,8 @@
 //
 
 import UIKit
+import Alamofire
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,15 +16,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
+        Alamofire.request(.GET, "https://httpbin.org/get", parameters: ["foo": "bar"])
+            .responseJSON { response in
+                print(response.request)  // original URL request
+                print(response.response) // URL response
+                print(response.data)     // server data
+                print(response.result)   // result of response serialization
+                
+                if let JSON = response.result.value {
+                    print("JSON: \(JSON)")
+                }
+        }
+        
+        
         let defaults = NSUserDefaults.standardUserDefaults()
         
         if let email = defaults.stringForKey("currentUserEmail") as String? {
             if let password = defaults.stringForKey("currentUserPassword") as String? {
                 
-                UserController.sharedInstance.register(email: email, password: password, onCompletion: {user, message in
+                // changing this to log in
+                UserController.sharedInstance.login(email: email, password: password, onCompletion: {user, message in
                     
                     if (user == nil) {
-                        print("dude")
+                        return
                     
                     }
                     else {

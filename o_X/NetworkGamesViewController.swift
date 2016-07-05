@@ -11,7 +11,7 @@ import UIKit
 class NetworkGamesViewController: UITableViewController {
     
     
-    private var gameArr : [String] = []
+    private var gameArr : [OXGame] = []
     
 
     override func viewDidLoad() {
@@ -21,18 +21,10 @@ class NetworkGamesViewController: UITableViewController {
         OXGameController.sharedInstance.getGames(onCompletion: {
             gameArr, message in
             
-            if (message == "") {
-                
-                for game in gameArr! {
-                    
-                    self.gameArr.append("Host: \(game.host) ID: \(game.ID)")
-                    
-                    
-                }
-            }
-            
-            else {
-                
+            if let game = gameArr {
+                self.gameArr = game
+                self.tableView.reloadData()
+            } else {
                 // should be an alert?
                 print(message)
             }
@@ -44,11 +36,6 @@ class NetworkGamesViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     @IBAction func backButton(sender: AnyObject) {
@@ -76,7 +63,7 @@ class NetworkGamesViewController: UITableViewController {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("first", forIndexPath: indexPath)
         
-        cell.textLabel?.text = String(gameArr[indexPath.row])
+        cell.textLabel?.text = "Game \(gameArr[indexPath.row].ID) @ \(gameArr[indexPath.row].host)"
         return cell
     }
   

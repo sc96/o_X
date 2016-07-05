@@ -38,8 +38,8 @@ class OXGame : NSObject {
     private var startType = CellType.X
     
     private var count : Int = 0
-    var ID : Int = 1
-    var host: String = "dummyString"
+    var ID : Int = 0
+    var host: String = ""
     
 
     
@@ -73,7 +73,7 @@ class OXGame : NSObject {
         
         var count = 0
         for cell in board {
-            if (cell == CellType.Empty) {
+            if (cell != CellType.Empty) {
                 count += 1
             }
         }
