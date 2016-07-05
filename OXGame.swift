@@ -69,13 +69,21 @@ class OXGame : NSObject {
     
     func turnCount() -> Int {
         
+        // removing count class variable and doing it the stupid way for some reason??
+        
+        var count = 0
+        for cell in board {
+            if (cell == CellType.Empty) {
+                count += 1
+            }
+        }
         return count
         
     }
     
     func whoseTurn() -> CellType {
         
-        if (count % 2 == 0) {
+        if (self.turnCount() % 2 == 0) {
             
             return CellType.X
         }
@@ -87,7 +95,7 @@ class OXGame : NSObject {
     
     func playMove(cellNumber: Int) -> CellType {
         
-        if (count % 2 == 0) {
+        if (self.turnCount() % 2 == 0) {
             
             board[cellNumber-1] = CellType.X
             count += 1
@@ -159,7 +167,7 @@ class OXGame : NSObject {
         if (gameWon()) {
             return OXGameState.Won
         }
-        else if (count == 9) {
+        else if (self.turnCount() == 9) {
             return OXGameState.Tie
             
         }
