@@ -15,6 +15,7 @@ class BoardViewController: UIViewController {
     @IBOutlet weak var networkLabel: UILabel!
     // hardcoding this. ns about initial value
     var networkMode : Bool = false
+    @IBOutlet weak var CancelGameBUtton: UIButton!
     
     
     
@@ -26,6 +27,13 @@ class BoardViewController: UIViewController {
         
         if (networkMode == false) {
             newGameButton.hidden = true
+   
+        }
+        else {
+            self.navigationController?.setNavigationBarHidden(true, animated: true)
+            self.restartGame()
+            
+        
         }
         
         
@@ -68,8 +76,74 @@ class BoardViewController: UIViewController {
     }
     
 
+    @IBAction func cancelGameButtonPressed(sender: UIButton) {
+        
+        
+        OXGameController.sharedInstance.cancelGame(OXGameController.sharedInstance.getCurrentGame().ID, onCompletion: {game, message in
+            
+            
+            if (message == nil) {
+                
+                OXGameController.sharedInstance.restartGame()
+                self.networkMode = false
+            }
+            else {
+                print(message)
+            }
+            
+            
+        })
+        networkMode = false
+    }
+    
+    
+    @IBAction func refreshButtonPressed(sender: UIButton) {
+        
+        
+        if (OXGameController.sharedInstance.getCurrentGame().host ==
+            UserController.sharedInstance.currentUser?.email) {
+            
+            for view in self.boardView.subviews {
+                if let button = view as? UIButton {
+                    if (button.enabled == true) {
+                        button.enabled = false
+                    }
+                }
+                
+            }
+            
+            
+            
+            
+        }
+        
+        
+        OXGameController.sharedInstance.getGame(OXGameController.sharedInstance.getCurrentGame().ID, onCompletion: { boardString, message in
+          
+            
+            if (message == nil) {
+                
+                
+                
+                
+                self.updateUI()
+                
+                
+                
+            }
+            else {
+                print(message)
+            }
+            
+        })
+    }
     
     @IBAction func cellButtonPressed(sender: UIButton) {
+        
+        
+        if (networkMode == false) {
+            
+        
         
         
         sender.setTitle(OXGameController.sharedInstance.playMove(sender.tag).rawValue, forState: .Normal)
@@ -169,6 +243,70 @@ class BoardViewController: UIViewController {
             
             // restartGame()
         }
+        }
+            
+            
+        else {
+            
+            let boardString = OXGameController.sharedInstance.getCurrentGame().serialiseBoard()
+            
+            var updatedString : String
+            
+            if (OXGameController.sharedInstance.getCurrentGame().turnCount() % 2 == 0) {
+                
+                updatedString = String(boardString.characters.dropLast(sender.tag + 2)) + "x" +
+                String(boardString.characters.dropFirst(sender.tag))
+                
+            }
+            else {
+                
+                updatedString = String(boardString.characters.dropLast(sender.tag + 2)) + "o" +
+                String(boardString.characters.dropFirst(sender.tag))
+            }
+            
+            
+            OXGameController.sharedInstance.playMove(OXGameController.sharedInstance.getCurrentGame().ID, board: boardString, onCompletion: {updatedString, message in
+                
+                if (message == nil) {
+                    
+                    sender.setTitle(OXGameController.sharedInstance.playMove(sender.tag).rawValue, forState: .Normal)
+                    sender.enabled = false
+                    
+                    
+                    for view in self.boardView.subviews {
+                        if let button = view  as? UIButton {
+                            button.enabled = false
+                        }
+                    }
+ 
+ 
+                    
+                }
+                
+                else {
+                    
+                    // should be nil
+                    print(message)
+                    
+                }
+                })
+                
+            
+          //  sender.setTitle(OXGameController.sharedInstance.playMove(sender.tag).rawValue, forState: .Normal)
+            sender.enabled = false
+            
+          /*  if (OXGameController.sharedInstance.getCurrentGame().host == UserController.sharedInstance.currentUser!.email) {
+                
+                
+                
+            } */
+            
+            
+            
+            
+        }
+        
+        
         
         
     }

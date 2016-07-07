@@ -14,7 +14,7 @@ class OXGameController : WebService {
     
     private var currGame: OXGame = OXGame()
     
-
+    
     
     static let sharedInstance = OXGameController()
     private override init() {}
@@ -40,24 +40,24 @@ class OXGameController : WebService {
     }
     
     /*
+     
+     func getGames(onCompletion onCompletion: ([OXGame]?, String?) -> Void) {
+     
+     
+     // WIP
+     let gameArr : [OXGame] = [currGame, OXGame(), OXGame()]
+     let message : String = ""
+     onCompletion(gameArr, message)
+     
+     }
+     
+     */
     
-    func getGames(onCompletion onCompletion: ([OXGame]?, String?) -> Void) {
-        
-        
-        // WIP
-        let gameArr : [OXGame] = [currGame, OXGame(), OXGame()]
-        let message : String = ""
-        onCompletion(gameArr, message)
-        
-    }
-    
- */
-    
-    func getGames(onCompletion onCompletion: ([OXGame]?, String?) -> Void) {
+    func getGameList(onCompletion onCompletion: ([OXGame]?, String?) -> Void) {
         
         // is it kosher to unwrap all of these?
         let request = self.createMutableRequest(NSURL(string: "https://ox-backend.herokuapp.com/games"), method: "GET", parameters: nil)
-
+        
         
         //execute request is a function we are able to call in UserController, because UserController extends WebService (See top of file, where UserController is defined)
         self.executeRequest(request, requestCompletionFunction: {(responseCode, json) in
@@ -65,6 +65,7 @@ class OXGameController : WebService {
             
             if (responseCode / 100 == 2)   {
                 
+                print(json)
                 var gameList : [OXGame] = []
                 
                 for game in json.arrayValue {
@@ -75,19 +76,148 @@ class OXGameController : WebService {
                 }
                 
                 onCompletion(gameList, nil)
-               
-              
+                
+                
             }   else    {
-                onCompletion(nil, json["errors"]["full_messages"][0].stringValue)
+                // onCompletion(nil, json["errors"]["full_messages"][0].stringValue)
+                onCompletion(nil, "error on getting game list")
             }
             
         })
-
+        
         
     }
-
     
+    // ns if this works and if the paremters are right
+    func acceptGame(game_id : Int, onCompletion: (OXGame?, String?) -> Void) {
+        
+        let request = self.createMutableRequest(NSURL(string: "https://ox-backend.herokuapp.com/games/\(game_id)/join"), method: "GET", parameters: nil)
+        
+        
+        self.executeRequest(request, requestCompletionFunction: {(responseCode, json) in
+            
+            
+            if (responseCode / 100 == 2)   {
+                
+                
+                let g = OXGame()
+                g.ID = json["id"].intValue
+                g.host = json["host_user"]["uid"].stringValue
+                
+                
+                onCompletion(g, nil)
+                
+                
+            }   else    {
+               // onCompletion(nil, json["errors"]["full_messages"][0].stringValue)
+                onCompletion(nil, "error on accepting game")
+            }
+            
+        })
+        
+        
+        
+        
+        
+        
+    }
     
+    func cancelGame(game_id : Int, onCompletion: (OXGame?, String?) -> Void) {
+        
+        let request = self.createMutableRequest(NSURL(string: "https://ox-backend.herokuapp.com/games/\(game_id)"), method: "DELETE", parameters: nil)
+        
+        self.executeRequest(request, requestCompletionFunction: {(responseCode, json) in
+            
+            if (responseCode / 100 == 2) {
+                
+                let g = OXGame()
+                g.ID = json["id"].intValue
+                g.host = json["host_user"]["uid"].stringValue
+                
+                onCompletion(g, nil)
+            }
+            else {
+                //onCompletion(nil, json["errors"]["full_messages"][0].stringValue)
+                onCompletion(nil, "error on cancelling game")
+            }
+            
+            
+        })
+        
+    }
     
+    func playMove(game_id: Int, board: String, onCompletion: (String?, String?) -> Void) {
+        
+        let boardString = ["board" : board]
+        
+        let request = self.createMutableRequest(NSURL(string: "https://ox-backend.herokuapp.com/games/\(game_id)"), method: "PUT",
+                                                parameters: boardString)
+        
+        self.executeRequest(request, requestCompletionFunction: {(responseCode, json) in
+         
+            if (responseCode / 100 == 2) {
+                
+                let updatedString = json["board"].stringValue
+                
+                onCompletion(updatedString, nil)
+            }
+            else {
+               // onCompletion(nil, json["errors"]["full_messages"][0].stringValue)
+                onCompletion(nil, "error on playing move")
+            }
+            
+        })
+        
+    }
     
+    // ns if this works and if parameters are correct
+    func createNewGame(onCompletion onCompletion: (OXGame?, String?) -> Void) {
+        
+        let request = self.createMutableRequest(NSURL(string: "https://ox-backend.herokuapp.com/games/"), method: "POST", parameters: nil)
+        
+        
+        self.executeRequest(request, requestCompletionFunction: {(responseCode, json) in
+            
+            if (responseCode/100 == 2) {
+                
+                let g = OXGame()
+                g.ID = json["id"].intValue
+                g.host = json["host_user"]["uid"].stringValue
+                
+                
+                onCompletion(g, nil)
+            }
+                
+            else {
+                onCompletion(nil, "error dude on creating new game")
+            }
+            
+        })
+        
+    }
+    
+    func getGame(game_id : Int, onCompletion: (String?, String?) -> Void) {
+        
+        let request = self.createMutableRequest(NSURL(string: "https://ox-backend.herokuapp.com/games/\(game_id)"), method: "GET",
+                                                parameters: nil)
+        
+        self.executeRequest(request, requestCompletionFunction: {(responseCode, json) in
+            
+            if (responseCode / 100 == 2) {
+                
+               // let boardString = json["board"].stringValue
+                let stateString = json["state"].stringValue
+                onCompletion(stateString, nil)
+                
+            }
+                
+            else {
+                
+                onCompletion(nil, "error dude on getting game")
+                
+            }
+            
+            
+        })
+    }
 }

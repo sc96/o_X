@@ -11,6 +11,7 @@ import UIKit
 class NetworkGamesViewController: UITableViewController {
     
     
+    
     private var gameArr : [OXGame] = []
     
 
@@ -18,7 +19,7 @@ class NetworkGamesViewController: UITableViewController {
         super.viewDidLoad()
         
         
-        OXGameController.sharedInstance.getGames(onCompletion: {
+        OXGameController.sharedInstance.getGameList(onCompletion: {
             gameArr, message in
             
             if let game = gameArr {
@@ -39,8 +40,9 @@ class NetworkGamesViewController: UITableViewController {
     }
 
     @IBAction func backButton(sender: AnyObject) {
-        
-        self.dismissViewControllerAnimated(true, completion: nil)
+       
+        // Gives me in an infinite UI loop if I set cancel game connected to nav controller
+     //   self.dismissViewControllerAnimated(true, completion: nil)
     }
     // MARK: - Table view data source
 
@@ -61,6 +63,7 @@ class NetworkGamesViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         
+        
         let cell = tableView.dequeueReusableCellWithIdentifier("first", forIndexPath: indexPath)
         
         cell.textLabel?.text = "Game \(gameArr[indexPath.row].ID) @ \(gameArr[indexPath.row].host)"
@@ -72,8 +75,53 @@ class NetworkGamesViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         
-        self.performSegueWithIdentifier("NetworkGameSegue", sender: self)
+        OXGameController.sharedInstance.acceptGame(gameArr[indexPath.row].ID, onCompletion: { game, message in
+            
+            if (message == nil) {
+                
+                OXGameController.sharedInstance.restartGame()
+                OXGameController.sharedInstance.getCurrentGame().ID = game!.ID
+                OXGameController.sharedInstance.getCurrentGame().host = game!.host
+                self.performSegueWithIdentifier("NGS", sender: self)
+            }
+            else {
+                	
+                // should be an alert
+                print(message)
+            }
+        })
     }
+    
+    
+    @IBAction func addButton(sender: UIBarButtonItem) {
+        
+        
+        
+        OXGameController.sharedInstance.createNewGame(onCompletion: { game, message in
+            
+            if (message == nil) {
+                
+                OXGameController.sharedInstance.restartGame()
+                OXGameController.sharedInstance.getCurrentGame().ID = game!.ID
+                OXGameController.sharedInstance.getCurrentGame().host = game!.host
+                
+                print(OXGameController.sharedInstance.getCurrentGame().ID)
+                
+                self.gameArr.append(game!)
+                self.tableView.reloadData()
+                self.performSegueWithIdentifier("NGS", sender: self)
+            }
+            
+            else {
+                
+                // alert
+                print(message)
+            }
+            
+        })
+        
+    }
+    
 
     /*
     // Override to support conditional editing of the table view.
@@ -117,7 +165,7 @@ class NetworkGamesViewController: UITableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        if segue.identifier == "NetworkGameSegue" {
+        if segue.identifier == "NGS" {
             if let vc = segue.destinationViewController as? BoardViewController {
                 vc.networkMode = true
             }

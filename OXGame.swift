@@ -189,7 +189,8 @@ class OXGame : NSObject {
         
     }
     
-    private func serialiseBoard() -> String {
+    // I'm unprivating these methods because I need to use then. Can I do this?
+    func serialiseBoard() -> String {
         
         var boardString :String = ""
         
