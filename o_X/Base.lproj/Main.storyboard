@@ -15,7 +15,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="first" id="VIv-E6-iUf">
-                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VIv-E6-iUf" id="JIU-np-GT7">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
@@ -42,7 +42,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="ppY-b1-fmQ" kind="show" identifier="NGS" id="kpB-rz-NGr"/>
+                        <segue destination="ppY-b1-fmQ" kind="show" identifier="NGSHost" id="kpB-rz-NGr"/>
+                        <segue destination="ppY-b1-fmQ" kind="show" identifier="NGSJoin" id="ECY-48-kMi"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cjv-VU-g8K" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -360,7 +361,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X6C-85-EWs">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X6C-85-EWs">
                                 <rect key="frame" x="527" y="64" width="53" height="30"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <state key="normal" title="Refresh">
@@ -370,14 +371,14 @@
                                     <action selector="refreshButtonPressed:" destination="ppY-b1-fmQ" eventType="touchUpInside" id="wwo-3t-O9s"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="o_X" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="399-kv-KQk">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="o_X" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="399-kv-KQk">
                                 <rect key="frame" x="284" y="64" width="33" height="24"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LtM-e1-Vbq">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LtM-e1-Vbq">
                                 <rect key="frame" x="20" y="64" width="95" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="KfD-lQ-v9L"/>
@@ -637,5 +638,6 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="2cx-by-ovR"/>
+        <segue reference="kpB-rz-NGr"/>
     </inferredMetricsTieBreakers>
 </document>

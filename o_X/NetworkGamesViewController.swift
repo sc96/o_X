@@ -82,7 +82,7 @@ class NetworkGamesViewController: UITableViewController {
                 OXGameController.sharedInstance.restartGame()
                 OXGameController.sharedInstance.getCurrentGame().ID = game!.ID
                 OXGameController.sharedInstance.getCurrentGame().host = game!.host
-                self.performSegueWithIdentifier("NGS", sender: self)
+                self.performSegueWithIdentifier("NGSJoin", sender: self)
             }
             else {
                 	
@@ -105,11 +105,15 @@ class NetworkGamesViewController: UITableViewController {
                 OXGameController.sharedInstance.getCurrentGame().ID = game!.ID
                 OXGameController.sharedInstance.getCurrentGame().host = game!.host
                 
+                
+                
+                
+                
                 print(OXGameController.sharedInstance.getCurrentGame().ID)
                 
                 self.gameArr.append(game!)
                 self.tableView.reloadData()
-                self.performSegueWithIdentifier("NGS", sender: self)
+                self.performSegueWithIdentifier("NGSHost", sender: self)
             }
             
             else {
@@ -165,9 +169,22 @@ class NetworkGamesViewController: UITableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        if segue.identifier == "NGS" {
+        if segue.identifier == "NGSJoin" {
             if let vc = segue.destinationViewController as? BoardViewController {
                 vc.networkMode = true
+                vc.host = false
+                    
+                
+                
+            }
+        }
+        
+        if segue.identifier == "NGSHost" {
+            if let vc = segue.destinationViewController as? BoardViewController {
+                vc.networkMode = true
+                vc.host = true
+                    
+                
             }
         }
     }

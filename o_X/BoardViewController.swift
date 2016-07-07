@@ -15,6 +15,7 @@ class BoardViewController: UIViewController {
     @IBOutlet weak var networkLabel: UILabel!
     // hardcoding this. ns about initial value
     var networkMode : Bool = false
+    var host : Bool = false
     @IBOutlet weak var CancelGameBUtton: UIButton!
     
     
@@ -22,7 +23,7 @@ class BoardViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.updateUI()
+        
         // Do any additional setup after loading the view, typically from a nib.
         
         if (networkMode == false) {
@@ -32,6 +33,18 @@ class BoardViewController: UIViewController {
         else {
             self.navigationController?.setNavigationBarHidden(true, animated: true)
             self.restartGame()
+            for view in self.boardView.subviews {
+                let button = view as? UIButton
+                button?.enabled = false
+            }
+            if (host == true) {
+                networkLabel.text = "Waiting for someone to join"
+                
+              
+            }
+            else {
+                networkLabel.text = "Your opponent's turn"
+            }
             
         
         }
@@ -81,6 +94,7 @@ class BoardViewController: UIViewController {
         
         OXGameController.sharedInstance.cancelGame(OXGameController.sharedInstance.getCurrentGame().ID, onCompletion: {game, message in
             
+            print(message)
             
             if (message == nil) {
                 
@@ -100,46 +114,155 @@ class BoardViewController: UIViewController {
     @IBAction func refreshButtonPressed(sender: UIButton) {
         
         
-        if (OXGameController.sharedInstance.getCurrentGame().host ==
-            UserController.sharedInstance.currentUser?.email) {
-            
-            for view in self.boardView.subviews {
-                if let button = view as? UIButton {
-                    if (button.enabled == true) {
-                        button.enabled = false
-                    }
-                }
-                
-            }
-            
-            
-            
-            
-        }
         
         
-        OXGameController.sharedInstance.getGame(OXGameController.sharedInstance.getCurrentGame().ID, onCompletion: { boardString, message in
+        
+        OXGameController.sharedInstance.getGame(OXGameController.sharedInstance.getCurrentGame().ID, onCompletion: { boardString, boardState, message in
+            
           
             
             if (message == nil) {
                 
+            /*
+                if (boardState == "open") {
+                    
+                    for view in self.boardView.subviews {
+                        
+                        if let button = view as?UIButton {
+                            button.enabled = false
+                        }
+                        
+                    }
+                    
+                    
+                } */
+                
+                if (boardState == "in_progress")
+                
+                {
+                    
+                    if (OXGameController.sharedInstance.getCurrentGame().turnCount() == 0) {
+                        
+                        if (self.host == true) {
+                            
+                            self.networkLabel.text = "Your turn bro!"
+                            for view in self.boardView.subviews {
+                                if let button = view as? UIButton {
+                                    button.enabled = true
+                                }
+                            }
+                            
+                        }
+                        
+                        else {
+                            
+                            self.networkLabel.text = "Your opponent's turn"
+                            
+                        }
+                        
+                        
+                    }
+                    
+                    
+                
+                if (OXGameController.sharedInstance.getCurrentGame().serialiseBoard() != boardString)
+                {
+                
+                
+                if (OXGameController.sharedInstance.getCurrentGame().host ==
+                    UserController.sharedInstance.currentUser?.email) {
+                    
+                    
+                    if (OXGameController.sharedInstance.getCurrentGame().turnCount()
+                        % 2 == 0) {
+                        
+                        
+                        self.networkLabel.text = "Your turn bro!"
+                        for view in self.boardView.subviews {
+                            if let button = view as?UIButton {
+                                if (button.titleLabel == "") {
+                                    button.enabled = true
+                                }
+                            }
+                        }
+                        
+                        
+                    }
+                        
+                    else {
+                        
+                        self.networkLabel.text = "Your opponent's turn."
+                        for view in self.boardView.subviews {
+                            if let button = view as? UIButton {
+                                if (button.enabled == true) {
+                                    button.enabled = false
+                                }
+                            }
+                            
+                        }
+                        
+                    }
+                }
+                else {
+                    
+                    
+                    if (OXGameController.sharedInstance.getCurrentGame().turnCount() % 2
+                        == 0) {
+                        
+                        self.networkLabel.text = "Your opponent's turn."
+                        for view in self.boardView.subviews {
+                            if let button = view as? UIButton {
+                                if (button.enabled == true) {
+                                    button.enabled = false
+                                }
+                            }
+                        }
+                    }
+                        
+                    else {
+                        
+                        self.networkLabel.text = "Your turn bro!"
+                        for view in self.boardView.subviews {
+                            if let button = view as? UIButton {
+                                if (button.titleLabel == "") {
+                                    button.enabled = true
+                                }
+                            }
+                        }
+                        
+                    }
+                    
+                    
+                    
+                    }
+                
+                    
+                    self.updateUI(boardString!)
+                    print(boardString! + "in refresh button method")
+                    print(OXGameController.sharedInstance.getCurrentGame().board)
                 
                 
                 
-                self.updateUI()
+    
+                }
                 
                 
-                
-            }
+                } }
             else {
                 print(message)
             }
+                
             
-        })
-    }
+            })
+        }
     
     @IBAction func cellButtonPressed(sender: UIButton) {
         
+        
+        // janky stuff
+        let doNothing = {() in
+            return
+        }
         
         if (networkMode == false) {
             
@@ -149,6 +272,7 @@ class BoardViewController: UIViewController {
         sender.setTitle(OXGameController.sharedInstance.playMove(sender.tag).rawValue, forState: .Normal)
         sender.enabled = false
         
+        
         let state :OXGameState = OXGameController.sharedInstance.getCurrentGame().state()
         
         
@@ -157,10 +281,7 @@ class BoardViewController: UIViewController {
             self.newGameButton.hidden = false }
         
         
-        // janky stuff
-        let doNothing = {() in
-            return
-        }
+        
         
         if (state == OXGameState.Won) {
             
@@ -200,6 +321,7 @@ class BoardViewController: UIViewController {
             }
             else {
                 
+             
                 let alert = UIAlertController(title: "Game over boi", message: "O won",
                                               preferredStyle: UIAlertControllerStyle.Alert)
                 
@@ -248,29 +370,39 @@ class BoardViewController: UIViewController {
             
         else {
             
+            
+            
             let boardString = OXGameController.sharedInstance.getCurrentGame().serialiseBoard()
             
             var updatedString : String
             
+            
+            
             if (OXGameController.sharedInstance.getCurrentGame().turnCount() % 2 == 0) {
                 
-                updatedString = String(boardString.characters.dropLast(sender.tag + 2)) + "x" +
+                updatedString = String(boardString.characters.dropLast(10 - sender.tag)) + "x" +
                 String(boardString.characters.dropFirst(sender.tag))
                 
             }
             else {
                 
-                updatedString = String(boardString.characters.dropLast(sender.tag + 2)) + "o" +
+                updatedString = String(boardString.characters.dropLast(10 - sender.tag)) + "o" +
                 String(boardString.characters.dropFirst(sender.tag))
             }
             
+            updateUI(updatedString)
             
-            OXGameController.sharedInstance.playMove(OXGameController.sharedInstance.getCurrentGame().ID, board: boardString, onCompletion: {updatedString, message in
+            
+            
+            
+            OXGameController.sharedInstance.playMove(OXGameController.sharedInstance.getCurrentGame().ID, board: updatedString, onCompletion: {updatedString, message in
                 
                 if (message == nil) {
                     
                     sender.setTitle(OXGameController.sharedInstance.playMove(sender.tag).rawValue, forState: .Normal)
                     sender.enabled = false
+                    self.updateUI(updatedString!)
+                    self.networkLabel.text = "Your opponent's turn."
                     
                     
                     for view in self.boardView.subviews {
@@ -278,6 +410,86 @@ class BoardViewController: UIViewController {
                             button.enabled = false
                         }
                     }
+                    
+                    
+                    
+                    
+                    
+                    let state = OXGameController.sharedInstance.getCurrentGame().state()
+                    
+                    if (state == OXGameState.Won) {
+                        
+                        // making sure you can't press buttons after you win
+                        for view in self.boardView.subviews {
+                            if let button = view as? UIButton {
+                                if (button.enabled == true) {
+                                    button.enabled = false
+                                }
+                                
+                            }
+                            
+                        }
+                        
+                        
+                        
+                        if (OXGameController.sharedInstance.getCurrentGame().turnCount() % 2 == 1) {
+                            
+                            self.networkLabel.text = "Host won!"
+                            let alert = UIAlertController(title: "Game over boi", message: "X won",
+                                preferredStyle: UIAlertControllerStyle.Alert)
+                            
+                            let alertAction = UIAlertAction(title: "Dismiss", style: .Cancel, handler: { (action) in
+                                
+                                    doNothing()
+                                
+                            })
+                            
+                            alert.addAction(alertAction)
+                            self.presentViewController(alert, animated: true, completion: nil)
+                            
+                        }
+                        else {
+                            
+                            self.networkLabel.text = "Guest won!"
+                            let alert = UIAlertController(title: "Game over boi", message: "O won",
+                                preferredStyle: UIAlertControllerStyle.Alert)
+                            
+                            let alertAction = UIAlertAction(title: "Dismiss", style: .Cancel, handler: { (action) in
+                                    doNothing()
+                            
+                            })
+                            
+                            alert.addAction(alertAction)
+                            self.presentViewController(alert, animated: true, completion: nil)
+                        }
+
+                        
+                        
+                        
+                    }
+                    
+                    
+                    
+                    else if (state == OXGameState.Tie){
+                        
+                        
+                        self.networkLabel.text = "No one won!"
+                        let alert = UIAlertController(title: "Tie", message: "No one won",
+                            preferredStyle: UIAlertControllerStyle.Alert)
+                        
+                        let alertAction = UIAlertAction(title: "Dismiss", style: .Cancel, handler: { (action) in
+                                doNothing()
+                        })
+                        
+                        alert.addAction(alertAction)
+                        self.presentViewController(alert, animated: true, completion: nil)
+                        
+                        
+                    
+                    }
+                    
+                    
+                    
  
  
                     
@@ -341,24 +553,29 @@ class BoardViewController: UIViewController {
      * And Go!
      */
     
-    func updateUI() {
+    func updateUI(boardString : String) {
         
         
-        var gameBoard = OXGameController.sharedInstance.getCurrentGame().board
+      //  var gameBoard = OXGameController.sharedInstance.getCurrentGame().board
+        
+   
+        
         
         
         
         for view in boardView.subviews {
             if let button = view as? UIButton {
-                let cellType = gameBoard[button.tag - 1]
+                let c = String(boardString[boardString.startIndex.advancedBy(button.tag - 1)])
                 
-                if (cellType == CellType.X) {
+                if (c == "x") {
                     button.setTitle("X", forState: .Normal)
                     button.enabled = false
+                    OXGameController.sharedInstance.getCurrentGame().board[button.tag - 1] = CellType.X
                 }
-                else if (cellType == CellType.O) {
+                else if (c == "o") {
                     button.setTitle("O", forState: .Normal)
                     button.enabled = false
+                    OXGameController.sharedInstance.getCurrentGame().board[button.tag - 1] = CellType.O
                 }
                 else {
                     button.setTitle("", forState: .Normal)

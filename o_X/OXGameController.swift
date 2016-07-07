@@ -153,6 +153,9 @@ class OXGameController : WebService {
         let request = self.createMutableRequest(NSURL(string: "https://ox-backend.herokuapp.com/games/\(game_id)"), method: "PUT",
                                                 parameters: boardString)
         
+        
+        print(board)
+        
         self.executeRequest(request, requestCompletionFunction: {(responseCode, json) in
          
             if (responseCode / 100 == 2) {
@@ -161,14 +164,20 @@ class OXGameController : WebService {
                 
                 onCompletion(updatedString, nil)
             }
-            else {
-               // onCompletion(nil, json["errors"]["full_messages"][0].stringValue)
-                onCompletion(nil, "error on playing move")
-            }
+
+                else {  onCompletion(nil, "error on playing move")
+               
+                    // onCompletion(nil, json["errors"]["full_messages"][0].stringValue)
             
-        })
-        
+                }
+            
+            })
     }
+    
+
+    
+        
+    
     
     // ns if this works and if parameters are correct
     func createNewGame(onCompletion onCompletion: (OXGame?, String?) -> Void) {
@@ -196,7 +205,7 @@ class OXGameController : WebService {
         
     }
     
-    func getGame(game_id : Int, onCompletion: (String?, String?) -> Void) {
+    func getGame(game_id : Int, onCompletion: (String?, String?, String?) -> Void) {
         
         let request = self.createMutableRequest(NSURL(string: "https://ox-backend.herokuapp.com/games/\(game_id)"), method: "GET",
                                                 parameters: nil)
@@ -205,15 +214,15 @@ class OXGameController : WebService {
             
             if (responseCode / 100 == 2) {
                 
-               // let boardString = json["board"].stringValue
                 let stateString = json["state"].stringValue
-                onCompletion(stateString, nil)
+                let boardString = json["board"].stringValue
+                onCompletion(boardString, stateString, nil)
                 
             }
                 
             else {
                 
-                onCompletion(nil, "error dude on getting game")
+                onCompletion(nil, nil,  "error dude on getting game")
                 
             }
             
