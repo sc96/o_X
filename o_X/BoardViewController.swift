@@ -122,20 +122,97 @@ class BoardViewController: UIViewController {
           
             
             if (message == nil) {
+         
                 
-            /*
-                if (boardState == "open") {
+                if (boardState == "tie") {
                     
-                    for view in self.boardView.subviews {
+                    self.updateUI(boardString!)
+                    self.networkLabel.text = "Tied!!"
+                    let alert = UIAlertController(title: "Tied", message: "No one won",
+                        preferredStyle: UIAlertControllerStyle.Alert)
+                    
+                    let alertAction = UIAlertAction(title: "Dismiss", style: .Cancel, handler: { (action) in
                         
-                        if let button = view as?UIButton {
-                            button.enabled = false
-                        }
                         
-                    }
+                        
+                    })
+                    
+                    alert.addAction(alertAction)
+                    self.presentViewController(alert, animated: true, completion: nil)
+                    return
                     
                     
-                } */
+                    
+                    
+                }
+                
+                
+                if (boardState == "x_win") {
+                    
+                    self.updateUI(boardString!)
+                    self.networkLabel.text = "Host won!"
+                    let alert = UIAlertController(title: "Game over boi", message: "X won",
+                        preferredStyle: UIAlertControllerStyle.Alert)
+                    
+                    let alertAction = UIAlertAction(title: "Dismiss", style: .Cancel, handler: { (action) in
+                        
+                        
+                        
+                    })
+                    
+                    alert.addAction(alertAction)
+                    self.presentViewController(alert, animated: true, completion: nil)
+                    return
+                    
+                    
+                }
+                
+                if (boardState == "o_win") {
+                    
+                    self.updateUI(boardString!)
+                    self.networkLabel.text = "Guest won!"
+                    let alert = UIAlertController(title: "Game over boi", message: "O won",
+                        preferredStyle: UIAlertControllerStyle.Alert)
+                    
+                    let alertAction = UIAlertAction(title: "Dismiss", style: .Cancel, handler: { (action) in
+                        
+                        
+                        
+                    })
+                    
+                    alert.addAction(alertAction)
+                    self.presentViewController(alert, animated: true, completion: nil)
+                    return
+
+
+                    
+                    
+                    
+                }
+                
+                
+                
+                if (boardState == "abandoned") {
+                    
+                    self.networkLabel.text = "Game Abandoned!"
+                    let alert = UIAlertController(title: "Your opponent left.", message: "You kinda won?",
+                        preferredStyle: UIAlertControllerStyle.Alert)
+                    
+                    let alertAction = UIAlertAction(title: "Dismiss", style: .Cancel, handler: { (action) in
+                        
+                        
+                        
+                    })
+                    
+                    alert.addAction(alertAction)
+                    self.presentViewController(alert, animated: true, completion: nil)
+                    return
+                    
+                    
+                    
+                    
+                }
+                
                 
                 if (boardState == "in_progress")
                 

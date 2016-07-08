@@ -39,19 +39,7 @@ class OXGameController : WebService {
         
     }
     
-    /*
-     
-     func getGames(onCompletion onCompletion: ([OXGame]?, String?) -> Void) {
-     
-     
-     // WIP
-     let gameArr : [OXGame] = [currGame, OXGame(), OXGame()]
-     let message : String = ""
-     onCompletion(gameArr, message)
-     
-     }
-     
-     */
+  
     
     func getGameList(onCompletion onCompletion: ([OXGame]?, String?) -> Void) {
         
@@ -98,7 +86,6 @@ class OXGameController : WebService {
             
             
             if (responseCode / 100 == 2)   {
-                
                 
                 let g = OXGame()
                 g.ID = json["id"].intValue
